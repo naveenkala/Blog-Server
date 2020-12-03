@@ -21,7 +21,7 @@ app.set("view engine", "ejs");
 
 // middleware & static files
 app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); //body parser
 app.use(
   auth({
     authRequired: false,
@@ -33,22 +33,24 @@ app.use(
   })
 );
 app.use(morgan("dev"));
+
 app.use((req, res, next) => {
   res.locals.path = req.path;
+  res.locals.isLoggedIn = req.oidc.isAuthenticated();
   next();
 });
 
 // routes
 app.get("/", (req, res) => {
-  res.redirect("/blogs");
+  res.redirect("/blogs/page/1");
+});
+
+app.get("/page", (req, res) => {
+  res.redirect("/blogs/page/1");
 });
 
 app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
-});
-
-app.get("/profile", requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user.email));
 });
 
 // blog routes

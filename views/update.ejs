@@ -1,0 +1,40 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body>
+    <%- include("./partials/nav.ejs") %>
+    <h1 class="text-center mb-4" style="color: teal">Update Blog</h1>
+    <div class="create-blog content">
+      <form action="<%= URL %>" method="POST">
+        <label for="title"><h2>Title</h2></label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value="<%= blog.title%>"
+          required
+        />
+        <label for="snippet"><h2>Snippet</h2></label>
+        <input
+          type="text"
+          id="snippet"
+          name="snippet"
+          required
+          value="<%= blog.snippet%>"
+        />
+        <label for="body"><h2>Body</h2></label>
+        <textarea
+          style="white-space: pre-wrap"
+          id="body"
+          name="body"
+          required
+        >
+<%= blog.body%></textarea
+        >
+        <button>Submit</button>
+      </form>
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+  </body>
+</html>

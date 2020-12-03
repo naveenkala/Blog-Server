@@ -3,34 +3,54 @@
 
   <body>
     <%- include("./partials/nav.ejs") %>
-
-    <div class="details content">
-      <h2><%= blog.title %></h2>
-      <div class="content">
-        <p><%= blog.body %></p>
-      </div>
+    <div
+      style="display: flex; justify-content: end"
+      class="mb-4 updateAndDelete"
+    >
       <% if(blog.delete>0) { %>
-      <a class="delete" data-doc="<%= blog._id %>">
-        <img src="/trashcan.svg" alt="delete icon" />
+      <a
+        class="m-4 btn btn-primary btn-lg delete"
+        role="button"
+        data-doc="<%= blog._id %>"
+      >
+        Delete
       </a>
+      <a
+        class="m-4 btn btn-primary btn-lg"
+        href="/blogs/update/<%= blog._id %>"
+        role="button"
+        >Update</a
+      >
       <% } %>
+    </div>
+    <div class="details content">
+      <div style="margin-bottom: 2em">
+        <h2><%= blog.title %></h2>
+      </div>
+      <div class="content">
+        <p style="display: inline; max-width: 90vw"><%- blog.body %></p>
+      </div>
     </div>
 
     <%- include("./partials/footer.ejs") %>
 
     <script>
-      const trashcan = document.querySelector("a.delete");
+      const trashcan = document.querySelector(
+        ".updateAndDelete a.delete"
+      );
 
-      trashcan.addEventListener("click", (e) => {
-        const endpoint = `/blogs/${trashcan.dataset.doc}`;
+      if (trashcan) {
+        trashcan.addEventListener("click", (e) => {
+          const endpoint = `/blogs/${trashcan.dataset.doc}`;
 
-        fetch(endpoint, {
-          method: "DELETE",
-        })
-          .then((response) => response.json())
-          .then((data) => (window.location.href = data.redirect))
-          .catch((err) => console.log(err));
-      });
+          fetch(endpoint, {
+            method: "DELETE",
+          })
+            .then((response) => response.json())
+            .then((data) => (window.location.href = data.redirect))
+            .catch((err) => console.log(err));
+        });
+      }
     </script>
   </body>
 </html>

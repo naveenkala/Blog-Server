@@ -1,0 +1,5 @@
+ISSUER_BASE_URL = Your Auth0 Issuer Base Url
+CLIENT_ID = Your Auth0 ClientID
+BASE_URL = base url ex -> http://localhost:3000
+SECRET = Your Auth0 secret
+DB_URI = Your MongoDB URI

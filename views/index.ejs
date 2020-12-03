@@ -1,25 +1,65 @@
 <html lang="en">
-<%- include("./partials/head.ejs") %>
+  <%- include("./partials/head.ejs") %>
 
-<body>
-  <%- include("./partials/nav.ejs") %>
+  <body>
+    <%- include("./partials/nav.ejs") %>
+    <div class="blogs content">
+      <% if (blogs.length > 0) { %> <% blogs.forEach(blog => { %>
+      <div class="jumbotron">
+        <h1 class="display-4"><%= blog.title %></h1>
+        <p class="lead"><%= blog.snippet %></p>
 
-  <div class="blogs content">
-    <h2>All Blogs</h2>
-
-    <% if (blogs.length > 0) { %>
-      <% blogs.forEach(blog => { %>
-        <a class="single" href="/blogs/<%= blog._id %>">
-          <h3 class="title"><%= blog.title %></h3>
-          <p class="snippet"><%= blog.snippet %></p>
-        </a>
-      <% }) %>
-    <% } else { %>
+        <a
+          class="btn btn-primary btn-lg"
+          href="/blogs/<%= blog._id %>"
+          role="button"
+          >Read more</a
+        >
+      </div>
+      <% }) %> <% } else { %>
       <p>There are no blogs to display...</p>
-    <% } %>
-    
-  </div>
+      <% } %>
+    </div>
 
-  <%- include("./partials/footer.ejs") %>
-</body>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <% if(currentPage==1){%>
+        <li class="page-item">
+          <a class="page-link" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <%} else {%> <% const prevLink =
+        `/blogs/page/${currentPage-1}`%>
+        <li class="page-item">
+          <a class="page-link" href="<%=prevLink%>">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <%}%> <% for (let i =1; i <=totalPages; i++ ) { %> <% const link
+        = `/blogs/page/${i}`%> <% if(i==currentPage) {%>
+        <li class="page-item active">
+          <a class="page-link" href="<%=link%>"><%=i%></a>
+        </li>
+        <%} else {%>
+        <li class="page-item">
+          <a class="page-link" href="<%=link%>"><%=i%></a>
+        </li>
+        <%}%> <% } %> <%if(currentPage==totalPages){%>
+        <a class="page-item">
+          <a class="page-link" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </a>
+        <%} else{%> <% const nextLink = `/blogs/page/${currentPage+1}`%>
+        <a class="page-item">
+          <a class="page-link" href="<%=nextLink%>" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </a>
+        <%}%>
+      </ul>
+    </nav>
+    <%- include("./partials/footer.ejs") %>
+  </body>
 </html>
